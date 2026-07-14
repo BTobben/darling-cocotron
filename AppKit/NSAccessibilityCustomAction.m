@@ -15,7 +15,8 @@ extern void _Block_release(const void *block);
 - (instancetype) initWithName: (NSString *) name target: (id) target selector: (SEL) selector {
     if ((self = [super init])) {
         _name = [name copy];
-        _target = [target retain];
+        /* AppKit documents target as weak; under MRC this is assign-only. */
+        _target = target;
         _selector = selector;
     }
     return self;
@@ -31,7 +32,6 @@ extern void _Block_release(const void *block);
 
 - (void) dealloc {
     [_name release];
-    [_target release];
     if (_handler)
         _Block_release(_handler);
     [super dealloc];
@@ -46,8 +46,7 @@ extern void _Block_release(const void *block);
 
 - target { return _target; }
 - (void) setTarget: target {
-    target = [target retain];
-    [_target release];
+    /* AppKit documents target as weak; under MRC this is assign-only. */
     _target = target;
 }
 
@@ -56,14 +55,16 @@ extern void _Block_release(const void *block);
 
 - (NSAccessibilityCustomActionHandler) handler { return _handler; }
 - (void) setHandler: (NSAccessibilityCustomActionHandler) handler {
+    NSAccessibilityCustomActionHandler newHandler = handler ?
+            (NSAccessibilityCustomActionHandler) _Block_copy(handler) : NULL;
     if (_handler)
         _Block_release(_handler);
-    _handler = handler ? (NSAccessibilityCustomActionHandler) _Block_copy(handler) : NULL;
+    _handler = newHandler;
 }
 
 - (BOOL) perform {
     if (_handler)
-        return _handler(self);
+        return _handler();
 
     if (!_target || !_selector || ![_target respondsToSelector: _selector])
         return NO;
@@ -72,24 +73,33 @@ extern void _Block_release(const void *block);
     if (!signature)
         return NO;
 
+    NSUInteger arguments = [signature numberOfArguments];
+    if (arguments != 2 && arguments != 3)
+        return NO;
+
+    const char *returnType = [signature methodReturnType];
+    while (*returnType == 'r' || *returnType == 'n' || *returnType == 'N' ||
+           *returnType == 'o' || *returnType == 'O' || *returnType == 'R' ||
+           *returnType == 'V')
+        returnType++;
+
+    if (returnType[0] != @encode(BOOL)[0] && returnType[0] != 'B' &&
+            returnType[0] != 'c' && returnType[0] != 'C')
+        return NO;
+
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
     [invocation setTarget: _target];
     [invocation setSelector: _selector];
-    if ([signature numberOfArguments] >= 3) {
+    if (arguments == 3) {
         id action = self;
         [invocation setArgument: &action atIndex: 2];
     }
 
     [invocation invoke];
 
-    const char *returnType = [signature methodReturnType];
-    if (returnType && returnType[0] == @encode(BOOL)[0]) {
-        BOOL result = NO;
-        [invocation getReturnValue: &result];
-        return result;
-    }
-
-    return YES;
+    BOOL result = NO;
+    [invocation getReturnValue: &result];
+    return result;
 }
 
 @end

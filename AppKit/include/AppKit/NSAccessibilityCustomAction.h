@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@class NSAccessibilityCustomAction;
-typedef BOOL (^NSAccessibilityCustomActionHandler)(NSAccessibilityCustomAction *action);
+typedef BOOL (^NSAccessibilityCustomActionHandler)(void);
 
 @interface NSAccessibilityCustomAction : NSObject {
     NSString *_name;

@@ -379,8 +379,23 @@ NSImageName const NSImageNameTouchBarVolumeUpTemplate =
     if (image == nil)
         image = [self imageNamed: [@"NS" stringByAppendingString: symbolName]];
 
-    if (image != nil)
-        [image setTemplate: YES];
+    if (image == nil)
+        return nil;
+
+    image = [[image copy] autorelease];
+    [image setTemplate: YES];
+
+    SEL setDescription = @selector(setAccessibilityDescription:);
+    if (description != nil && [image respondsToSelector: setDescription]) {
+        NSMethodSignature *signature = [image methodSignatureForSelector: setDescription];
+        if (signature != nil && [signature numberOfArguments] == 3) {
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
+            [invocation setTarget: image];
+            [invocation setSelector: setDescription];
+            [invocation setArgument: &description atIndex: 2];
+            [invocation invoke];
+        }
+    }
 
     return image;
 }
