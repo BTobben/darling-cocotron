@@ -21,6 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #import <AppKit/NSATSTypesetter.h>
 #import <AppKit/NSAccessibility.h>
+#import <AppKit/NSAccessibilityCustomAction.h>
 #import <AppKit/NSAccessibilityElement.h>
 #import <AppKit/NSActionCell.h>
 #import <AppKit/NSAffineTransform.h>
@@ -49,6 +50,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #import <AppKit/NSColor.h>
 #import <AppKit/NSColorList.h>
 #import <AppKit/NSColorPanel.h>
+#import <AppKit/NSColorSampler.h>
 #import <AppKit/NSColorPicker.h>
 #import <AppKit/NSColorSpace.h>
 #import <AppKit/NSColorWell.h>
@@ -87,6 +89,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #import <AppKit/NSGroupTouchBarItem.h>
 #import <AppKit/NSHelpManager.h>
 #import <AppKit/NSImage.h>
+#import <AppKit/NSImageSymbolConfiguration.h>
 #import <AppKit/NSImageCell.h>
 #import <AppKit/NSImageRep.h>
 #import <AppKit/NSImageView.h>

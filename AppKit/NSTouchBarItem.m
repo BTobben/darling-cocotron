@@ -29,6 +29,8 @@ NSTouchBarItemIdentifier const NSTouchBarItemIdentifierOtherItemsProxy =
         @"NSTouchBarItemIdentifierOtherItemsProxy";
 NSTouchBarItemIdentifier const NSTouchBarItemIdentifierCharacterPicker =
         @"NSTouchBarItemIdentifierCharacterPicker";
+NSTouchBarItemIdentifier const NSTouchBarItemIdentifierCandidateList =
+        @"NSTouchBarItemIdentifierCandidateList";
 
 @interface NSColorPickerTouchBarItem : NSTouchBarItem
 @end

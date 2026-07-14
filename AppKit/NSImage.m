@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #import <AppKit/NSEPSImageRep.h>
 #import <AppKit/NSGraphicsContextFunctions.h>
 #import <AppKit/NSImage.h>
+#import <AppKit/NSImageSymbolConfiguration.h>
 #import <AppKit/NSImageRep.h>
 #import <AppKit/NSPDFImageRep.h>
 #import <AppKit/NSPasteboard.h>
@@ -367,6 +368,44 @@ NSImageName const NSImageNameTouchBarVolumeUpTemplate =
     }
 
     // Cocoa AppKit always returns the same shared cached image
+    return image;
+}
+
++ (NSImage *) imageWithSystemSymbolName: (NSString *) symbolName accessibilityDescription: (NSString *) description {
+    if (symbolName == nil)
+        return nil;
+
+    NSImage *image = [self imageNamed: symbolName];
+    if (image == nil)
+        image = [self imageNamed: [@"NS" stringByAppendingString: symbolName]];
+
+    if (image == nil)
+        return nil;
+
+    image = [[image copy] autorelease];
+    [image setTemplate: YES];
+
+    SEL setDescription = @selector(setAccessibilityDescription:);
+    if (description != nil && [image respondsToSelector: setDescription]) {
+        NSMethodSignature *signature = [image methodSignatureForSelector: setDescription];
+        if (signature != nil && [signature numberOfArguments] == 3) {
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature: signature];
+            [invocation setTarget: image];
+            [invocation setSelector: setDescription];
+            [invocation setArgument: &description atIndex: 2];
+            [invocation invoke];
+        }
+    }
+
+    return image;
+}
+
+- (NSImage *) imageWithSymbolConfiguration: (NSImageSymbolConfiguration *) configuration {
+    if (configuration == nil)
+        return self;
+
+    NSImage *image = [[self copy] autorelease];
+    [image setTemplate: [self isTemplate]];
     return image;
 }
 
