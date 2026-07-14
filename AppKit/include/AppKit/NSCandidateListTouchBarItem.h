@@ -21,3 +21,6 @@
 
 @interface NSCandidateListTouchBarItem<__covariant CandidateType> : NSTouchBarItem
 @end
+
+APPKIT_EXPORT NSTouchBarItemIdentifier const
+        NSTouchBarItemIdentifierCandidateList;
