@@ -21,6 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #import <AppKit/NSGraphics.h>
 
 @class NSImageRep;
+@class NSImageSymbolConfiguration;
 
 typedef enum {
     NSImageCacheDefault,
@@ -56,12 +57,14 @@ typedef enum {
 + (BOOL) canInitWithPasteboard: (NSPasteboard *) pasteboard;
 
 + imageNamed: (NSString *) name;
++ (NSImage *) imageWithSystemSymbolName: (NSString *) symbolName accessibilityDescription: (NSString *) description;
 
 - initWithSize: (NSSize) size;
 - initWithData: (NSData *) data;
 - initWithContentsOfFile: (NSString *) path;
 - initWithContentsOfURL: (NSURL *) url;
 - initWithCGImage: (CGImageRef) cgImage size: (NSSize) size;
+- (NSImage *) imageWithSymbolConfiguration: (NSImageSymbolConfiguration *) configuration;
 
 - initWithPasteboard: (NSPasteboard *) pasteboard;
 - initByReferencingFile: (NSString *) path;

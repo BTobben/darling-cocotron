@@ -18,6 +18,7 @@
  */
 
 #import <AppKit/NSView.h>
+#import <AppKit/NSImageView.h>
 
 @interface NSScrubberArrangedView : NSView
 @end
@@ -26,4 +27,16 @@
 @end
 
 @interface NSScrubberTextItemView : NSScrubberItemView
+@end
+
+@interface NSScrubberImageItemView : NSScrubberItemView {
+    NSImageView *_imageView;
+}
+
+- (NSImageView *) imageView;
+- (NSImage *) image;
+- (void) setImage: (NSImage *) image;
+- (NSImageAlignment) imageAlignment;
+- (void) setImageAlignment: (NSImageAlignment) imageAlignment;
+
 @end

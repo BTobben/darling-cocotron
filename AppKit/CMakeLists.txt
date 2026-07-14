@@ -136,6 +136,7 @@ set(AppKit_sources
 	NSPopover.m
 	NSRunningApplication.m
 	NSAccessibilityCustomChooser.m
+	NSAccessibilityCustomAction.m
 
 	nib.subproj/NSButtonImageSource.m
 	nib.subproj/NSNibBindingConnector.m
@@ -334,6 +335,7 @@ set(AppKit_sources
 	NSLevelIndicator.m
 	NSDraggingManager.m
 	NSImage.m
+	NSImageSymbolConfiguration.m
 
 	NSKeyValueBinding/NSObject+BindingSupport.m
 	NSKeyValueBinding/NSBinder.m

@@ -47,6 +47,52 @@
 
 @end
 
+@implementation NSScrubberImageItemView
+
+- (id) init {
+    return [self initWithFrame: NSZeroRect];
+}
+
+- (id) initWithFrame: (NSRect) frame {
+    if ((self = [super initWithFrame: frame])) {
+        _imageView = [[NSImageView alloc] initWithFrame: [self bounds]];
+        [_imageView setAutoresizingMask: NSViewWidthSizable | NSViewHeightSizable];
+        [_imageView setImageFrameStyle: NSImageFrameNone];
+        [_imageView setImageAlignment: NSImageAlignCenter];
+        [self addSubview: _imageView];
+    }
+    return self;
+}
+
+- (id) initWithCoder: (NSCoder *) coder {
+    if ((self = [super initWithCoder: coder])) {
+        _imageView = [[NSImageView alloc] initWithFrame: [self bounds]];
+        [_imageView setAutoresizingMask: NSViewWidthSizable | NSViewHeightSizable];
+        [_imageView setImageFrameStyle: NSImageFrameNone];
+        [_imageView setImageAlignment: NSImageAlignCenter];
+        [self addSubview: _imageView];
+    }
+    return self;
+}
+
+- (void) dealloc {
+    [_imageView release];
+    [super dealloc];
+}
+
+- (void) setFrame: (NSRect) frame {
+    [super setFrame: frame];
+    [_imageView setFrame: [self bounds]];
+}
+
+- (NSImageView *) imageView { return _imageView; }
+- (NSImage *) image { return [_imageView image]; }
+- (void) setImage: (NSImage *) image { [_imageView setImage: image]; }
+- (NSImageAlignment) imageAlignment { return [_imageView imageAlignment]; }
+- (void) setImageAlignment: (NSImageAlignment) imageAlignment { [_imageView setImageAlignment: imageAlignment]; }
+
+@end
+
 @implementation NSScrubberTextItemView
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
