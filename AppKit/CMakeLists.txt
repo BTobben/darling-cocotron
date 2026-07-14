@@ -365,6 +365,7 @@ set(AppKit_sources
 	NSPrinter.m
 	NSTableHeaderCell.m
 	NSColorPanel.m
+	NSColorSampler.m
 	NSCell.m
 	NSPopUpView.m
 	NSViewBackingLayer.m

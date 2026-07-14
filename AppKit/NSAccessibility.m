@@ -25,6 +25,8 @@ NSString *const NSAccessibilityPositionAttribute =
 NSString *const NSAccessibilityRoleAttribute = @"NSAccessibilityRoleAttribute";
 NSString *const NSAccessibilityRoleDescriptionAttribute =
         @"NSAccessibilityRoleDescriptionAttribute";
+NSAccessibilityAttributeName const NSAccessibilityRequiredAttribute =
+        @"AXRequired";
 NSString *const NSAccessibilitySelectedChildrenAttribute =
         @"NSAccessibilitySelectedChildrenAttribute";
 NSString *const NSAccessibilityShownMenuAttribute =
@@ -482,6 +484,49 @@ NSAccessibilityActionName const NSAccessibilityShowAlternateUIAction = @"AXShowA
 NSAccessibilityActionName const NSAccessibilityShowDefaultUIAction = @"AXShowDefaultUI";
 NSString *const NSAccessibilityShowMenuAction =
         @"NSAccessibilityShowMenuAction";
+
+NSString *NSAccessibilityActionDescription(NSAccessibilityActionName action)
+{
+    if (action == nil)
+        return nil;
+
+    /* Compatibility descriptions for Cocotron's existing action constants.
+       This is deterministic, but not a complete localized macOS table. */
+    if ([action isEqualToString: NSAccessibilityCancelAction] ||
+            [action isEqualToString: @"AXCancel"])
+        return @"cancel";
+    if ([action isEqualToString: NSAccessibilityConfirmAction] ||
+            [action isEqualToString: @"AXConfirm"])
+        return @"confirm";
+    if ([action isEqualToString: NSAccessibilityDecrementAction] ||
+            [action isEqualToString: @"AXDecrement"])
+        return @"decrement";
+    if ([action isEqualToString: NSAccessibilityDeleteAction] ||
+            [action isEqualToString: @"AXDelete"])
+        return @"delete";
+    if ([action isEqualToString: NSAccessibilityIncrementAction] ||
+            [action isEqualToString: @"AXIncrement"])
+        return @"increment";
+    if ([action isEqualToString: NSAccessibilityPickAction] ||
+            [action isEqualToString: @"AXPick"])
+        return @"pick";
+    if ([action isEqualToString: NSAccessibilityPressAction] ||
+            [action isEqualToString: @"AXPress"])
+        return @"press";
+    if ([action isEqualToString: NSAccessibilityRaiseAction] ||
+            [action isEqualToString: @"AXRaise"])
+        return @"raise";
+    if ([action isEqualToString: NSAccessibilityShowAlternateUIAction])
+        return @"show alternate UI";
+    if ([action isEqualToString: NSAccessibilityShowDefaultUIAction])
+        return @"show default UI";
+    if ([action isEqualToString: NSAccessibilityShowMenuAction] ||
+            [action isEqualToString: @"AXShowMenu"])
+        return @"show menu";
+
+    return action;
+}
+
 
 NSString *const NSAccessibilityMainWindowChangedNotification =
         @"NSAccessibilityMainWindowChangedNotification";
